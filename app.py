@@ -1070,10 +1070,10 @@ with st.sidebar.expander("📂 Ladatut tiliotteet", expanded=False):
     if not df_tiliotteet.empty:
         for kk, group in df_tiliotteet.groupby("kohde_kk"):
             st.markdown(f"**🗓️ {kk}**")
-            for _, r in group.iterrows():
+            for idx, r in group.iterrows():
                 col_n, col_d = st.columns([4, 1])
                 col_n.text(f"• {r['tiedoston_nimi']} ({r['omistaja']})")
-                if col_d.button("🗑️", key=f"del_{r['id']}", help="Poista tiliote"):
+                if col_d.button("🗑️", key=f"del_tiliote_{kk}_{r['id']}_{idx}", help="Poista tiliote"):
                     poista_tiliote(r["id"])
                     st.session_state["paivita_db"] = True
                     st.rerun()

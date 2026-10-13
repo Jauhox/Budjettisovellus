@@ -20,11 +20,11 @@ BACKUP_FILE = "budjetti_varmuuskopio.db"
 UNDO_FILE = "budjetti_undo.db"
 
 if DB_URL:
-    # Varmistetaan, että osoite käyttää psycopg2-ajuria
-    if DB_URL.startswith("postgres://"):
-        DB_URL = DB_URL.replace("postgres://", "postgresql+psycopg2://", 1)
-    elif DB_URL.startswith("postgresql://") and "+psycopg2" not in DB_URL:
+    # Pakotetaan psycopg2-ajuriosaadi osoitteeseen, jos se puuttuu
+    if "postgresql://" in DB_URL and "+psycopg2" not in DB_URL:
         DB_URL = DB_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
+    elif DB_URL.startswith("postgres://"):
+        DB_URL = DB_URL.replace("postgres://", "postgresql+psycopg2://", 1)
         
     engine = sqlalchemy.create_engine(DB_URL)
     KAYTA_POSTGRES = True
